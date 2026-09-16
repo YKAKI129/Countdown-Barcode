@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YKAKI - 3 Slide dengan Countdown</title>
+    <title>YKAKI - Pre-Test</title>
     <style>
         * {
             box-sizing: border-box;
@@ -20,7 +20,6 @@
             flex-direction: column;
         }
 
-        /* --- SLIDE CONTAINER --- */
         .slides-wrapper {
             position: relative;
             width: 100%;
@@ -46,23 +45,33 @@
             visibility: visible;
         }
 
-        /* --- HEADER (LOGO YKAKI TENGAH ATAS) --- */
+        /* --- HEADER (LOGO + PRE-TEST) --- */
         .header-logo {
             width: 100%;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding-top: 30px;
-            padding-bottom: 10px;
+            padding-top: 15px;
+            padding-bottom: 5px;
         }
 
         .header-logo img {
-            width: 320px;
+            width: 400px;
             height: auto;
             object-fit: contain;
         }
 
-        /* --- KONTEN UTAMA (QR & TIMER BERDAMPINGAN DI TENGAH) --- */
+        .pre-test-title {
+            font-size: 40px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 25px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* --- KONTEN UTAMA --- */
         .content-container {
             display: flex;
             flex: 1;
@@ -71,10 +80,11 @@
             justify-content: center;
             gap: 60px;
             padding: 0 40px;
+            padding-bottom: 70px;
         }
 
         .qr-code {
-            width: 280px;
+            width: 260px;
             height: auto;
             border: 1px solid #eee;
             padding: 5px;
@@ -82,7 +92,7 @@
         }
 
         .countdown {
-            font-size: 150px;
+            font-size: 130px;
             font-weight: bold;
             color: #2c3e50;
             font-variant-numeric: tabular-nums;
@@ -93,7 +103,7 @@
         /* --- NAVIGASI TOMBOL --- */
         .nav-buttons {
             position: fixed;
-            bottom: 20px;
+            bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -102,8 +112,8 @@
         }
 
         .nav-buttons button {
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 8px 18px;
+            font-size: 14px;
             border: none;
             border-radius: 30px;
             background-color: #3498db;
@@ -121,36 +131,39 @@
             background-color: #e74c3c;
         }
 
-        /* --- INDIKATOR SLIDE --- */
         .slide-indicator {
             position: fixed;
-            top: 20px;
-            right: 30px;
-            font-size: 14px;
+            top: 15px;
+            right: 20px;
+            font-size: 12px;
             color: #888;
             z-index: 100;
             background: rgba(255,255,255,0.8);
-            padding: 5px 12px;
+            padding: 4px 10px;
             border-radius: 20px;
             border: 1px solid #ddd;
         }
 
-        /* --- RESPONSIF --- */
         @media (max-width: 768px) {
             .content-container {
                 flex-direction: column;
-                gap: 20px;
+                gap: 15px;
                 justify-content: center;
                 padding: 0 20px;
+                padding-bottom: 70px;
             }
             .qr-code {
-                width: 180px;
+                width: 170px;
             }
             .countdown {
-                font-size: 70px;
+                font-size: 65px;
             }
             .header-logo img {
-                width: 200px;
+                width: 150px;
+            }
+            .pre-test-title {
+                font-size: 22px;
+                margin-top: 15px;
             }
         }
     </style>
@@ -165,9 +178,11 @@
         <div class="slide active" id="slide1">
             <div class="header-logo">
                 <img src="https://ykaki.org/wp-content/uploads/2021/10/YKAKI-Logo-2.png" alt="Logo YKAKI">
+                <div class="pre-test-title">Pre-Test</div>
             </div>
             <div class="content-container">
-                <img src="22 Sep 2026.jpeg" alt="QR Code 1" class="qr-code">
+                <!-- Src akan diisi oleh JavaScript -->
+                <img alt="QR Code" class="qr-code qr-image">
                 <div class="countdown" id="countdown1">03:00</div>
             </div>
         </div>
@@ -176,9 +191,10 @@
         <div class="slide" id="slide2">
             <div class="header-logo">
                 <img src="https://ykaki.org/wp-content/uploads/2021/10/YKAKI-Logo-2.png" alt="Logo YKAKI">
+                <div class="pre-test-title">Pre-Test</div>
             </div>
             <div class="content-container">
-                <img src="22 Sep 2026.jpeg" alt="QR Code 2" class="qr-code">
+                <img alt="QR Code" class="qr-code qr-image">
                 <div class="countdown" id="countdown2">03:00</div>
             </div>
         </div>
@@ -187,10 +203,11 @@
         <div class="slide" id="slide3">
             <div class="header-logo">
                 <img src="https://ykaki.org/wp-content/uploads/2021/10/YKAKI-Logo-2.png" alt="Logo YKAKI">
+                <div class="pre-test-title">Pre-Test</div>
             </div>
             <div class="content-container">
-                <img src="22 Sep 2026.jpeg" alt="QR Code 3" class="qr-code">
-                <div class="countdown" id="countdown3">02:00</div>
+                <img alt="QR Code" class="qr-code qr-image">
+                <div class="countdown" id="countdown3">03:00</div>
             </div>
         </div>
 
@@ -204,7 +221,17 @@
 
     <script>
         // ==========================================
-        // LOGIKA PERPINDAHAN SLIDE (MANUAL SAJA)
+        // ★★★ CUKUP GANTI 1 LINK DI SINI ★★★
+        // ==========================================
+        const QR_LINK = "22 Sep 2026.jpeg";
+        
+        // Otomatis pasang link ke semua gambar QR di ketiga slide
+        document.querySelectorAll('.qr-image').forEach(img => {
+            img.src = QR_LINK;
+        });
+
+        // ==========================================
+        // LOGIKA PERPINDAHAN SLIDE
         // ==========================================
         const slides = document.querySelectorAll('.slide');
         const buttons = [
@@ -234,13 +261,13 @@
         }
 
         // ==========================================
-        // LOGIKA COUNTDOWN (PER SLIDE)
+        // LOGIKA COUNTDOWN
         // ==========================================
         const timers = {};
 
         function startCountdown(slideIndex) {
             const element = document.getElementById(`countdown${slideIndex + 1}`);
-            let timeLeft = 180; // 3 menit
+            let timeLeft = 180;
 
             if (timers[slideIndex]) {
                 clearInterval(timers[slideIndex]);
@@ -272,9 +299,6 @@
             startCountdown(slideIndex);
         }
 
-        // ==========================================
-        // INISIALISASI
-        // ==========================================
         window.onload = function() {
             showSlide(0);
         };

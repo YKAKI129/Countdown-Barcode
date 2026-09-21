@@ -38,6 +38,7 @@
             visibility: hidden;
             transition: opacity 0.8s ease-in-out;
             background-color: #fff;
+            padding-bottom: 60px; /* Bintang ruang untuk tombol navigasi */
         }
 
         .slide.active {
@@ -52,21 +53,22 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding-top: 15px;
-            padding-bottom: 5px;
+            padding-top: 2vh;
+            padding-bottom: 1vh;
+            flex-shrink: 0;
         }
 
         .header-logo img {
-            width: 400px;
+            width: clamp(200px, 25vw, 400px);
             height: auto;
             object-fit: contain;
         }
 
         .pre-test-title {
-            font-size: 40px;
+            font-size: clamp(28px, 3.5vw, 48px);
             font-weight: bold;
             color: #2c3e50;
-            margin-top: 25px;
+            margin-top: 1vh;
             letter-spacing: 3px;
             text-transform: uppercase;
         }
@@ -78,26 +80,30 @@
             width: 100%;
             align-items: center;
             justify-content: center;
-            gap: 60px;
-            padding: 0 40px;
-            padding-bottom: 70px;
+            gap: 5vw;
+            padding: 0 4vw;
         }
 
         .qr-code {
-            width: 260px;
+            /* Dibuat responsif fleksibel berdasarkan lebar & tinggi viewport */
+            width: min(35vw, 45vh);
             height: auto;
-            border: 1px solid #eee;
-            padding: 5px;
+            border: 2px solid #eee;
+            padding: 12px;
             background: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-radius: 8px;
         }
 
         .countdown {
-            font-size: 130px;
+            /* Font fleksibel responsif membesar secara otomatis */
+            font-size: min(15vw, 22vh);
             font-weight: bold;
             color: #2c3e50;
             font-variant-numeric: tabular-nums;
-            letter-spacing: 5px;
+            letter-spacing: 2px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            line-height: 1;
         }
 
         /* --- NAVIGASI TOMBOL --- */
@@ -147,23 +153,13 @@
         @media (max-width: 768px) {
             .content-container {
                 flex-direction: column;
-                gap: 15px;
-                justify-content: center;
-                padding: 0 20px;
-                padding-bottom: 70px;
+                gap: 20px;
             }
             .qr-code {
-                width: 170px;
+                width: min(60vw, 30vh);
             }
             .countdown {
-                font-size: 65px;
-            }
-            .header-logo img {
-                width: 150px;
-            }
-            .pre-test-title {
-                font-size: 22px;
-                margin-top: 15px;
+                font-size: min(22vw, 12vh);
             }
         }
     </style>
@@ -181,7 +177,6 @@
                 <div class="pre-test-title">Pre-Test</div>
             </div>
             <div class="content-container">
-                <!-- Src akan diisi oleh JavaScript -->
                 <img alt="QR Code" class="qr-code qr-image">
                 <div class="countdown" id="countdown1">03:00</div>
             </div>
@@ -220,19 +215,12 @@
     </div>
 
     <script>
-        // ==========================================
-        // ★★★ CUKUP GANTI 1 LINK DI SINI ★★★
-        // ==========================================
         const QR_LINK = "22 Sep 2026.jpeg";
         
-        // Otomatis pasang link ke semua gambar QR di ketiga slide
         document.querySelectorAll('.qr-image').forEach(img => {
             img.src = QR_LINK;
         });
 
-        // ==========================================
-        // LOGIKA PERPINDAHAN SLIDE
-        // ==========================================
         const slides = document.querySelectorAll('.slide');
         const buttons = [
             document.getElementById('btn0'),
@@ -260,9 +248,6 @@
             showSlide(currentSlide);
         }
 
-        // ==========================================
-        // LOGIKA COUNTDOWN
-        // ==========================================
         const timers = {};
 
         function startCountdown(slideIndex) {
